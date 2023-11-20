@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# opendb file which i don't know what it does
+*.opendb
