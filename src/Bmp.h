@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "core.h
+#include "core.h"
 
 // bitmap class
 // https://en.wikipedia.org/wiki/Bitmap
