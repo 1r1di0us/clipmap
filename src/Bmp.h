@@ -1,17 +1,22 @@
-///////////////////////////////////////////
+
 #pragma once
-///////////////////////////////////////////
-#include "core.h"
-///////////////////////////////////////////
+
+#include "core.h
+
+// bitmap class
+// https://en.wikipedia.org/wiki/Bitmap
+
 class Bmp
 {
 public:
 
+	// constructors
 	Bmp();
 	Bmp(const char*filename);
 	Bmp(int x,int y,int bpp,unsigned char*data=0);
 	~Bmp();
 
+	// public methods
 	void load(const char*filename);
 	void save(const char*filename);
 	void save_float(const char*filename);
@@ -24,13 +29,15 @@ public:
 
 public:
 
+	// public fields
 	unsigned char*data;
 	int width;
 	int height;
 	int bpp;
 
 private:
-
+	
+	// private fields
 	unsigned char bmp[54];
 };
 

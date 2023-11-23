@@ -1,31 +1,37 @@
-//#################################################################//
 #include "Bmp.h"
-//#################################################################//
+
+// default (empty) bitmap constructor
 Bmp::Bmp()
 {
 	width=height=0;
 	data=NULL;
 }
-//#################################################################//
+
+// bitmap constructor that takes a series of parameters, which
+// later are passed to set()
 Bmp::Bmp(int x,int y,int b,unsigned char*buffer)
 {
 	width=height=0;
 	data=NULL;
 	set(x,y,b,buffer);
 }
-//#################################################################//
+
+// bitmap constructor that takes a filename, which is later passed
+// to load()
 Bmp::Bmp(const char*filename)
 {
 	width=height=0;
 	data=NULL;
 	load(filename);
 }
-//#################################################################//
+
+// ??
 Bmp::~Bmp()
 {
 	if (data) free(data);
 }
-//#################################################################//
+
+// saves the filename passed to it as the current bitmap?
 void Bmp::save(const char*filename)
 {
 	printf("saving image %s\n",filename);
@@ -36,9 +42,9 @@ void Bmp::save(const char*filename)
               	1,0,0x18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 	bmp[18]	=width;
-	bmp[19]	=width>>8;
+	bmp[19]	=width>>8; // bitwise shift right by 8 (equivalent to division by 256)
 	bmp[22]	=height;
-	bmp[23]	=height>>8;
+	bmp[23]	=height>>8; // bitwise shift right by 8 (equivalent to division by 256)
 	bmp[28]	=bpp;
 
 	FILE* fn;
@@ -46,23 +52,23 @@ void Bmp::save(const char*filename)
 	{
 		fwrite(bmp ,1,54   ,fn);
 		fwrite(data,1,width*height*(bpp/8),fn);
-		fclose(fn);
+		fclose(fn); // close the file
 	}
 	else error_stop("Bmp::save");
 }
-//#################################################################//
+
+// loads the bitmap specified by the passed file name?
 void Bmp::load(const char*filename)
 {
 	FILE* handle;
 
+	// error handling
 	if(filename==NULL)		
 		{printf("File not found %s !\n",filename);while(1);;}
 	if((char)filename[0]==0)	
 		{printf("File not found %s !\n",filename);while(1);;}
-
 	if ((handle = fopen(filename, "rb")) == NULL)
 		{printf("File not found %s !\n",filename);while(1);;}
-		
 	if(!fread(bmp, 11, 1, handle))
 	{
 		printf("Error reading file %s!\n",filename);
@@ -74,24 +80,26 @@ void Bmp::load(const char*filename)
 		while(1);;
 	}
 
+	// ??
 	width	=(int)((unsigned char)bmp[18])+((int)((unsigned char)(bmp[19]))<<8);
 	height	=(int)((unsigned char)bmp[22])+((int)((unsigned char)(bmp[23]))<<8);
 	bpp		=bmp[28];
 
 	//printf("%s : %dx%dx%d Bit \n",filename,width,height,bpp);
 	
-	if(data)free(data);
+	if(data)free(data); // ?
 
-	int size=width*height*(bpp/8);
+	int size=width*height*(bpp/8); // size of the bitmap file?
 
 	data=(unsigned char*)malloc(size+1);
-	fread(data,size,1,handle);
+	fread(data,size,1,handle); // read from the file
 
-	fclose(handle);
+	fclose(handle); // close the file
 
 	printf("read successfully %s ; %dx%dx%d Bit \n",filename,width,height,bpp);
 }
-//#################################################################//
+
+// save an entry in the clipmap?
 void Bmp::save_float(const char*filename)
 {
 	FILE* fn;
@@ -99,7 +107,8 @@ void Bmp::save_float(const char*filename)
 	fwrite(data,1,4*width*height,fn);
 	fclose(fn);
 }
-//#################################################################//
+
+// load an entry in the clipmap?
 void Bmp::load_float(const char*filename)
 {
 	FILE* fn;
@@ -107,14 +116,16 @@ void Bmp::load_float(const char*filename)
 	fread(data,1,4*width*height,fn);
 	fclose(fn);
 }
-//#################################################################//
+
+// set the value of an individual pixel
 void Bmp::set_pixel(int x,int y,int r,int g,int b)
 {
 	data[(x+y*width)*(bpp/8)+2]=r;
 	data[(x+y*width)*(bpp/8)+1]=g;
 	data[(x+y*width)*(bpp/8)+0]=b;
 }	
-//#################################################################//
+
+// get the value of an individual pixel
 int Bmp::get_pixel(int x,int y)
 {
 	if(data==0) error_stop("get_pixel data=0");
@@ -125,7 +136,8 @@ int Bmp::get_pixel(int x,int y)
 		data[(x+y*width)*(bpp/8)+1]*256+
 		data[(x+y*width)*(bpp/8)+2]*256*256;
 }
-//#################################################################//
+
+// get the color of an individual pixel?
 vec3f Bmp::get_pixel3f(int x,int y)
 {
 	int color=get_pixel(x,y);
@@ -134,11 +146,14 @@ vec3f Bmp::get_pixel3f(int x,int y)
 	float b=float((color>>16)&255)/255.0f;
 	return vec3f(r,g,b);
 }
-//#################################################################//
+
+// this function will be used to blur the transitions between the different
+// clipmap LOD
 void  Bmp::blur(int radius)
 {
 }
-//#################################################################//
+
+// ??
 void Bmp::set(int x,int y,int b,unsigned char*buffer)
 {
 	width=x;
@@ -160,4 +175,4 @@ void Bmp::set(int x,int y,int b,unsigned char*buffer)
 	bmp[23]	=height>>8;
 	bmp[28]	=bpp;
 }
-//#################################################################//
+
