@@ -1,5 +1,5 @@
 *.opendb
-/.vs
+/.vs/
 *.db
 *.db-shm
 *.db-wal

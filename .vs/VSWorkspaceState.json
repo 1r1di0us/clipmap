@@ -1,7 +1,14 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\bin32",
+    "\\bin64",
+    "\\ext",
+    "\\lib64",
+    "\\shader",
+    "\\src",
+    "\\src\\Debug"
   ],
-  "SelectedNode": "\\ClipMap.sln",
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }
