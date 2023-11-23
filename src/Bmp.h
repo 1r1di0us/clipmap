@@ -4,7 +4,9 @@
 #include "core.h"
 
 // bitmap class
+// 
 // https://en.wikipedia.org/wiki/Bitmap
+// https://en.wikipedia.org/wiki/BMP_file_format
 
 class Bmp
 {
