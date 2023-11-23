@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\lib64",
+    "\\src"
   ],
-  "SelectedNode": "\\C:\\Users\\zrgru\\Source\\Repos\\clipmap",
+  "SelectedNode": "\\src\\Main.cpp",
   "PreviewInSolutionExplorer": false
 }
