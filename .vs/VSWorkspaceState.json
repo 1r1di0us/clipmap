@@ -7,8 +7,9 @@
     "\\lib64",
     "\\shader",
     "\\src",
-    "\\src\\Debug"
+    "\\src\\Debug",
+    "\\src\\x64"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\ClipMap.sln",
   "PreviewInSolutionExplorer": false
 }
