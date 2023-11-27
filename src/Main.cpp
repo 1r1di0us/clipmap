@@ -19,49 +19,51 @@
 #include <mmsystem.h>
 #include <GL/glut.h>
 #include "glsl.h"
-#pragma comment(lib,"winmm.lib")
 #include "Bmp.h"
 #include "ogl.h"
 
+#pragma comment(lib,"winmm.lib")
+
 using namespace std;
 
-int grid= 64;				// patch resolution
-int levels=5;				// LOD levels
-int width=2048,height=2048; // heightmap dimensions
+int grid = 64;				// patch resolution
+int levels = 5;				// LOD levels
+int width = 2048, height = 2048; // heightmap dimensions
 
-// This function draws the scene.
+// this function draws the scene
 void DrawScene()
-{
-	// escape e=key to exit tbe program
-	if ( GetAsyncKeyState(VK_ESCAPE) )  exit(0);
+{	
+	if ( GetAsyncKeyState(VK_ESCAPE) )  exit(0); // escape key to exit tbe program (ESCAPE)
 
 	POINT cursor; // point object corresponding to mouse position
 	GetCursorPos(&cursor); // mouse pointer position
 
 	bool	wireframe= GetAsyncKeyState(VK_SPACE);	// render wireframev (HOLD SPACE)
 	bool	topdown	 = GetAsyncKeyState(VK_RETURN);	// view top-down (HOLD ENTER)
-	// what other cool features can we add here?
+	// what other cool features might we add here?
 
 	// viewer parameters
-	float	viewangle= float(cursor.x)/5.0;
-	vec3f	viewpos ( (timeGetTime()>>2)&((1<<17)-1) , -(float(cursor.y)/500.0)* 0.1-0.05 , 0 );
+	float	viewangle = float(cursor.x)/5.0; // angle
+	vec3f	viewpos ( (timeGetTime()>>2)&((1<<17)-1) , -(float(cursor.y)/500.0)* 0.1-0.05 , 0 ); // position
 
 	glClearDepth(1.0f);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // set background to black
+
+	// other openGL stuff
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	static int tex_heightmap=0;
-	static int tex_terrain=0;
+	static int tex_heightmap = 0; // heightmap value
+	static int tex_terrain = 0; // texture value
 
-	static bool init=true;
+	static bool init = true;
 	static Shader shader("Shader");
 
-	static int vbo=0;
-	static std::vector<float> vert;
+	static int vbo = 0; // ??
+	static std::vector<float> vert; // vector of vert heigghts?
 
 	if(init)
 	{
@@ -70,18 +72,18 @@ void DrawScene()
 		Bmp bmp(width,height,32);
 		loopj(0,height) loopi(0,width)
 		{
-			float x= float(i)/float(width);
-			float y= float(j)/float(height);
-			float h = (sin(4*M_PI*x)+sin(4*M_PI*y)+sin(16*M_PI*x)*sin(16*M_PI*y))*0.125+0.5;
-			((float*)bmp.data)[i+j*width]=h;
+			float x = float(i) / float(width); 
+			float y = float(j) / float(height);
+			float h = (sin(4 * M_PI * x) + sin(4 * M_PI * y)  +sin( 16 * M_PI * x)  * sin(16 * M_PI * y)) * 0.125 + 0.5;
+			((float*) bmp.data)[i + j * width] = h;
 		}	
 		//bmp.load_float("../result.f32"); // <-- use this for loading raw float map from file
-		tex_heightmap = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_LUMINANCE16F_ARB,GL_LUMINANCE,bmp.data, GL_FLOAT);
+		tex_heightmap = ogl_tex_new(width, height, GL_LINEAR_MIPMAP_LINEAR, GL_REPEAT, GL_LUMINANCE16F_ARB, GL_LUMINANCE, bmp.data, GL_FLOAT);
 		
 		// terrain texture
-		loopj(0,height)	loopi(0,width) loopk(0,3) // ??
+		loopj(0, height) loopi(0, width) loopk(0, 3) // ??
 		{
-			bmp.data[(i+j*width)*3+k]=i^j^(k*192); // ??
+			bmp.data[(i + j * width) * 3 + k] = i ^ j ^ (k * 192); // ??
 		}
 		tex_terrain = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_RGB,GL_RGB,bmp.data, GL_UNSIGNED_BYTE); //??
 		
@@ -98,20 +100,20 @@ void DrawScene()
 		shader.link();
 		
 		// make vbo quad patch
-		loopj(0,grid+1)
-		loopi(0,grid+2)
+		loopj(0, grid+1)
+		loopi(0, grid+2)
 		{
 			loopk(0, ((i==0) ? 2 : 1) )
 			{
-				vert.push_back(float(i)/grid);
-				vert.push_back(float(j)/grid);
+				vert.push_back(float(i) / grid);
+				vert.push_back(float(j) / grid);
 				vert.push_back(0);
 			}			
 			++j;
-			loopk(0, ((i==grid+1) ? 2 : 1) )
+			loopk(0, ((i == grid + 1) ? 2 : 1) )
 			{
-				vert.push_back(float(i)/grid);
-				vert.push_back(float(j)/grid);
+				vert.push_back(float(i) / grid);
+				vert.push_back(float(j) / grid);
 				vert.push_back(0);
 			}
 			--j;
@@ -214,12 +216,12 @@ void DrawScene()
 // entry point in program
 int main(int argc, char **argv) 
 { 
-  glutInit(&argc, argv);  // doing something wih command-loine arguments
+  glutInit(&argc, argv);  // glutInit() command-line arguments
 
   // setting up window
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  
-  glutInitWindowSize(1024, 512);  
-  glutInitWindowPosition(0, 0);  
+  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  // set display mode
+  glutInitWindowSize(1024, 512); // set window size
+  glutInitWindowPosition(0, 0);  // set window position
   glutCreateWindow("Geometry Clipmaps Example (c) Sven Forstmann 2014");
 
   // displaying scene
