@@ -18,11 +18,12 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <GL/glut.h>
-using namespace std;
 #include "glsl.h"
 #pragma comment(lib,"winmm.lib")
 #include "Bmp.h"
 #include "ogl.h"
+
+using namespace std;
 
 int grid= 64;				// patch resolution
 int levels=5;				// LOD levels
@@ -147,8 +148,9 @@ void DrawScene()
 	// Enable VBO
 	glBindBufferARB(GL_ARRAY_BUFFER_ARB, vbo);				CHECK_GL_ERROR();
 	glEnableClientState(GL_VERTEX_ARRAY);					CHECK_GL_ERROR();
-	glVertexPointer  ( 3, GL_FLOAT,0, (char *) 0);			CHECK_GL_ERROR();
+	glVertexPointer  ( 3, GL_FLOAT, 0, (char *) 0);			CHECK_GL_ERROR();
 
+	// openGL stuff
 	glEnable(GL_TEXTURE_2D);
 	glActiveTextureARB( GL_TEXTURE0 );
 	glBindTexture(GL_TEXTURE_2D, tex_heightmap);
@@ -156,17 +158,17 @@ void DrawScene()
 	glActiveTextureARB( GL_TEXTURE1 );
 	glBindTexture(GL_TEXTURE_2D, tex_terrain);
 
-	// Triangle Mesh
+	// triangle mesh
 	shader.begin();
 	shader.setUniform1i("tex_heightmap",0);
 	shader.setUniform1i("tex_terrain",1);
 
-	float sxy=2; // scale x/y
+	float sxy = 2; // scale x/y
 	shader.setUniform4f("map_position", 
-		-viewpos.x/float(2*512*grid),
-		-viewpos.z/float(2*512*grid),0,0);
+		- viewpos.x / float(2 * 512 * grid),
+		- viewpos.z / float(2 * 512 * grid),0,0);
 
-	loopi(0,levels)
+	loopi(0, levels)
 	{
 		float ox=(int(viewpos.x*(1<<i))&511)/float(512*grid);
 		float oy=(int(viewpos.z*(1<<i))&511)/float(512*grid);
