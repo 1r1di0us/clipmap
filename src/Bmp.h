@@ -3,7 +3,9 @@
 
 #include "core.h"
 
-// bitmap class
+// bitmap class. A bitmap is quite literally, a map of bits.
+// each bitmap has a length and a width, as well as a bits per pixel
+// 
 // 
 // https://en.wikipedia.org/wiki/Bitmap
 // https://en.wikipedia.org/wiki/BMP_file_format
@@ -11,6 +13,12 @@
 class Bmp
 {
 public:
+
+	// public fields
+	unsigned char* data;
+	int width;
+	int height;
+	int bpp;
 
 	// constructors
 	Bmp();
@@ -28,14 +36,6 @@ public:
 	void set_pixel(int x,int y,int r,int g,int b);
 	int  get_pixel(int x,int y);
 	vec3f get_pixel3f(int x,int y);
-
-public:
-
-	// public fields
-	unsigned char*data;
-	int width;
-	int height;
-	int bpp;
 
 private:
 	

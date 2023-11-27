@@ -1,4 +1,3 @@
-/////////////////////////////////////////////
 //
 // Geometry Clip-Maps Tutorial
 //
@@ -6,10 +5,10 @@
 //
 // License : MIT
 // http://opensource.org/licenses/MIT
-/////////////////////////////////////////////
+
 // Mathlib included from 
 // http://sourceforge.net/projects/nebuladevice/
-/////////////////////////////////////////////
+
 #include <iostream> 
 #include <vector> 
 #include <string> 
@@ -22,24 +21,26 @@
 using namespace std;
 #include "glsl.h"
 #pragma comment(lib,"winmm.lib")
-///////////////////////////////////////////
 #include "Bmp.h"
 #include "ogl.h"
-///////////////////////////////////////////
+
 int grid= 64;				// patch resolution
 int levels=5;				// LOD levels
 int width=2048,height=2048; // heightmap dimensions
-///////////////////////////////////////////
 
+// This function draws the scene.
 void DrawScene()
 {
 	if ( GetAsyncKeyState(VK_ESCAPE) )  exit(0);
 
-	POINT cursor;
+	POINT cursor; // point object corresponding to mouse position
 	GetCursorPos(&cursor); // mouse pointer position
 
-	bool	wireframe= GetAsyncKeyState(VK_SPACE);	// render wireframe
-	bool	topdown	 = GetAsyncKeyState(VK_RETURN);	// view top-down
+	bool	wireframe= GetAsyncKeyState(VK_SPACE);	// render wireframev (HOLD SPACE)
+	bool	topdown	 = GetAsyncKeyState(VK_RETURN);	// view top-down (HOLD ENTER)
+	// what other cool features can we add here?
+
+	// viewer parameters
 	float	viewangle= float(cursor.x)/5.0;
 	vec3f	viewpos ( (timeGetTime()>>2)&((1<<17)-1) , -(float(cursor.y)/500.0)* 0.1-0.05 , 0 );
 
@@ -62,7 +63,7 @@ void DrawScene()
 
 	if(init)
 	{
-		/*+++++++++++++++++++++++++++++++++++++*/
+		[
 		// terrain heightmap
 		Bmp bmp(width,height,32);
 		loopj(0,height) loopi(0,width)
@@ -74,14 +75,14 @@ void DrawScene()
 		}	
 		//bmp.load_float("../result.f32"); // <-- use this for loading raw float map from file
 		tex_heightmap = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_LUMINANCE16F_ARB,GL_LUMINANCE,bmp.data, GL_FLOAT);
-		/*+++++++++++++++++++++++++++++++++++++*/
+		
 		// terrain texture
 		loopj(0,height)	loopi(0,width) loopk(0,3)
 		{
 			bmp.data[(i+j*width)*3+k]=i^j^(k*192);
 		}
 		tex_terrain = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_RGB,GL_RGB,bmp.data, GL_UNSIGNED_BYTE);
-		/*+++++++++++++++++++++++++++++++++++++*/
+		
 		// driver info
 		std::cout << "GL_VERSION: " << glGetString(GL_VERSION) << std::endl;			//std::cout << "GL_EXTENSIONS: " << glGetString(GL_EXTENSIONS) << std::endl;
 		std::cout << "GL_RENDERER: " << glGetString(GL_RENDERER) << std::endl;
@@ -207,7 +208,8 @@ void DrawScene()
 	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);								CHECK_GL_ERROR();
 	glutSwapBuffers();
 }
-///////////////////////////////////////////
+
+// entry point in program
 int main(int argc, char **argv) 
 { 
   glutInit(&argc, argv);  
@@ -222,4 +224,4 @@ int main(int argc, char **argv)
   glutMainLoop();  
   return 0;
 }
-///////////////////////////////////////////
+[

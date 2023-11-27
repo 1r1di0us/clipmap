@@ -28,7 +28,7 @@ Bmp::Bmp(const char*filename)
 // squiggly constructor?
 Bmp::~Bmp()
 {
-	if (data) free(data);
+	if (data) free (data); // ??
 }
 
 // saves the filename passed to it as the current bitmap?
@@ -63,7 +63,7 @@ void Bmp::load(const char*filename)
 {
 	FILE* handle;
 
-	// error handling
+	// error handling begins
 	if(filename==NULL)		
 	{
 		printf("File not found %s !\n", filename); while (1);;
@@ -86,6 +86,8 @@ void Bmp::load(const char*filename)
 		printf("Error reading file %s!\n",filename);
 		while(1);;
 	}
+	// error handling ends
+
 
 	// ??
 	width	=(int)((unsigned char)bmp[18])+((int)((unsigned char)(bmp[19]))<<8);
@@ -156,7 +158,7 @@ vec3f Bmp::get_pixel3f(int x, int y)
 }
 
 // this function will be used to blur the transitions between the different
-// clipmap LOD
+// clipmap LODs
 void  Bmp::blur(int radius)
 {
 }
