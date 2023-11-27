@@ -31,6 +31,7 @@ int width=2048,height=2048; // heightmap dimensions
 // This function draws the scene.
 void DrawScene()
 {
+	// escape e=key to exit tbe program
 	if ( GetAsyncKeyState(VK_ESCAPE) )  exit(0);
 
 	POINT cursor; // point object corresponding to mouse position
@@ -77,24 +78,24 @@ void DrawScene()
 		tex_heightmap = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_LUMINANCE16F_ARB,GL_LUMINANCE,bmp.data, GL_FLOAT);
 		
 		// terrain texture
-		loopj(0,height)	loopi(0,width) loopk(0,3)
+		loopj(0,height)	loopi(0,width) loopk(0,3) // ??
 		{
-			bmp.data[(i+j*width)*3+k]=i^j^(k*192);
+			bmp.data[(i+j*width)*3+k]=i^j^(k*192); // ??
 		}
-		tex_terrain = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_RGB,GL_RGB,bmp.data, GL_UNSIGNED_BYTE);
+		tex_terrain = ogl_tex_new(width,height,GL_LINEAR_MIPMAP_LINEAR,GL_REPEAT,GL_RGB,GL_RGB,bmp.data, GL_UNSIGNED_BYTE); //??
 		
 		// driver info
-		std::cout << "GL_VERSION: " << glGetString(GL_VERSION) << std::endl;			//std::cout << "GL_EXTENSIONS: " << glGetString(GL_EXTENSIONS) << std::endl;
+		std::cout << "GL_VERSION: " << glGetString(GL_VERSION) << std::endl;			
 		std::cout << "GL_RENDERER: " << glGetString(GL_RENDERER) << std::endl;
 		std::cout << "GL_VENDOR: " << glGetString(GL_VENDOR) << std::endl;
-		std::cout << "GLU_VERSION: " << gluGetString(GLU_VERSION) << std::endl;			//std::cout << "GLU_EXTENSIONS: " << gluGetString(GLU_EXTENSIONS) << std::endl;
+		std::cout << "GLU_VERSION: " << gluGetString(GLU_VERSION) << std::endl;			
 		std::cout << "GLUT_API_VERSION: " << GLUT_API_VERSION << std::endl;
-		/*+++++++++++++++++++++++++++++++++++++*/
+
 		// load shaders
 		shader.attach(GL_VERTEX_SHADER,"../shader/vs.txt");
 		shader.attach(GL_FRAGMENT_SHADER,"../shader/frag.txt");
 		shader.link();
-		/*+++++++++++++++++++++++++++++++++++++*/
+		
 		// make vbo quad patch
 		loopj(0,grid+1)
 		loopi(0,grid+2)
@@ -114,13 +115,12 @@ void DrawScene()
 			}
 			--j;
 		}
-		/*+++++++++++++++++++++++++++++++++++++*/
+		
 		glGenBuffers(1, (GLuint *)(&vbo));
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vert.size(),&vert[0], GL_DYNAMIC_DRAW_ARB );
-		/*+++++++++++++++++++++++++++++++++++++*/
-		init=false;
-		/*+++++++++++++++++++++++++++++++++++++*/
+		
+		init = false;
 	}
 	glMatrixMode( GL_PROJECTION);
 	glLoadIdentity();
@@ -199,7 +199,7 @@ void DrawScene()
 			if(wireframe)	glDrawArrays( GL_LINES, 0, vert.size()/3);
 			else			glDrawArrays( GL_TRIANGLE_STRIP, 0, vert.size()/3);
 		}
-		sxy*=0.5;
+		sxy *= 0.5;
 	}	
 	shader.end();
 
@@ -212,11 +212,15 @@ void DrawScene()
 // entry point in program
 int main(int argc, char **argv) 
 { 
-  glutInit(&argc, argv);  
+  glutInit(&argc, argv);  // doing something wih command-loine arguments
+
+  // setting up window
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  
   glutInitWindowSize(1024, 512);  
   glutInitWindowPosition(0, 0);  
   glutCreateWindow("Geometry Clipmaps Example (c) Sven Forstmann 2014");
+
+  // displaying scene
   glutDisplayFunc(DrawScene);
   glutIdleFunc(DrawScene);
   glewInit();

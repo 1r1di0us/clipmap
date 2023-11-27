@@ -22,7 +22,7 @@ int CheckGLError(char *file, int line)
 
 	return 0;
 }
-///////////////////////////////////////////
+
 class Shader
 {
 public:
