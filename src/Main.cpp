@@ -22,7 +22,7 @@
 #include "Bmp.h"
 #include "ogl.h"
 
-#pragma comment(lib,"winmm.lib") // ??
+#pragma comment(lib,"winmm.lib")
 
 using namespace std;
 
@@ -44,7 +44,7 @@ void DrawScene()
 
 	// view parameters
 	float	viewangle = float(cursor.x) / 5.0; // view angle
-	vec3f	viewpos ((timeGetTime() >> 2) & ((1 << 17) - 1) , - (float(cursor.y) / 500.0) * 0.1 - 0.05 , 0); // view position
+	vec3f	viewpos ((timeGetTime() >> 2) & ((1 << 17) - 1) , - (float(cursor.y) / 500) * 0.1 - 0.05 , 0); // view position
 
 	// set background to black
 	glClearDepth(1.0f);
@@ -176,8 +176,8 @@ void DrawScene()
 
 	loopi(0, levels)
 	{
-		float ox = (int (viewpos.x * (1 << i)) & 511) / float (512 * grid);
-		float oy = (int (viewpos.z * (1 << i)) & 511) / float (512 * grid);
+		float ox = (int (viewpos.x * (1 << i)) & 511) / float (512 * grid); // ??
+ 		float oy = (int (viewpos.z * (1 << i)) & 511) / float (512 * grid); // ??
 
 		vec3f scale	(sxy*0.25,sxy*0.25,1);
 		shader.setUniform4f("scale" , scale.x,scale.y,1,1);	

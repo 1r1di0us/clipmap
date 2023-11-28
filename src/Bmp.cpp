@@ -35,11 +35,11 @@ Bmp::~Bmp()
 void Bmp::save(const char*filename)
 {
 	printf("saving image %s\n",filename);
-	unsigned char bmp[58]=
-			{0x42,0x4D,0x36,0x30,0,0,0,0,0,0,0x36,0,0,0,0x28,0,0,0,
-	           	0x40,0,0,0, // X-Size
-	           	0x40,0,0,0, // Y-Size
-              	1,0,0x18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	unsigned char bmp[58] =
+			{0x42, 0x4D, 0x36, 0x30, 0, 0, 0, 0, 0, 0, 0x36, 0, 0, 0, 0x28, 0, 0, 0, // ??
+	           	0x40, 0, 0, 0, // X-Size
+	           	0x40, 0, 0, 0, // Y-Size
+              	1, 0, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // ??
 
 	bmp[18]	= width;
 	bmp[19]	= width >> 8; // bitwise shift right by 8 (equivalent to division by 256)
@@ -51,8 +51,9 @@ void Bmp::save(const char*filename)
 	FILE* fn;
 	if ((fn = fopen (filename,"wb")) != NULL)
 	{
+		// write to the fiel
 		fwrite(bmp , 1, 54, fn);
-		fwrite(data, 1, width * height * (bpp / 8), fn);
+		fwrite(data, 1, (long) width * height * (bpp / 8), fn); 
 		fclose(fn); // close the file
 	}
 	else error_stop("Bmp::save");
@@ -88,19 +89,18 @@ void Bmp::load(const char*filename)
 	}
 	// error handling ends
 
-
 	// ??
-	width	=(int)((unsigned char)bmp[18])+((int)((unsigned char)(bmp[19]))<<8);
-	height	=(int)((unsigned char)bmp[22])+((int)((unsigned char)(bmp[23]))<<8);
-	bpp		=bmp[28];
+	width = (int) ((unsigned char)bmp[18]) + ((int) ((unsigned char) (bmp[19])) << 8); // ??
+	height = (int) ((unsigned char)bmp[22]) + ((int) ((unsigned char) (bmp[23])) << 8); // ??
+	bpp	=bmp[28];
 
 	//printf("%s : %dx%dx%d Bit \n",filename,width,height,bpp);
 	
 	if (data) free (data); // ?
 
-	int size=width*height*(bpp/8); // size of the bitmap file? what is bpp?
+	int size = width * height * (bpp / 8); // size of the bitmap file? what is bpp?
 
-	data=(unsigned char*)malloc(size+1);
+	data = (unsigned char*)malloc(size+1);
 	fread(data,size,1,handle); // read from the file
 
 	fclose(handle); // close the file
@@ -163,7 +163,7 @@ void  Bmp::blur(int radius)
 {
 }
 
-// ??
+// set a bitmap passed on the passed parameters
 void Bmp::set(int x,int y,int b,unsigned char*buffer)
 {
 	width = x; 
