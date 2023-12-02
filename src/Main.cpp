@@ -1,4 +1,4 @@
-//
+a//
 // Geometry Clip-Maps Tutorial
 //
 // (C) by Sven Forstmann in 2014
@@ -16,7 +16,7 @@
 #include <glew.h>
 #include <wglew.h>
 #include <windows.h>
-#include <mmsystem.h>
+#include <mmsystem.h>ad
 #include <GL/glut.h>
 #include "glsl.h"
 #include "Bmp.h"
@@ -44,7 +44,7 @@ void DrawScene()
 
 	// view parameters
 	float	viewangle = float(cursor.x) / 5.0; // view angle
-	vec3f	viewpos ((timeGetTime() >> 2) & ((1 << 17) - 1) , - (float(cursor.y) / 500) * 0.1 - 0.05 , 0); // view position
+	vec3f	viewpos ((timeGetTime() >> 2) & ((1 << 17) - 1) , - (float(cursor.y) / 500) * 0.1 - 0.05 , 0); // view position (function of time)
 
 	// set background to black
 	glClearDepth(1.0f);
