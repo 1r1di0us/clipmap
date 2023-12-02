@@ -100,17 +100,17 @@ void DrawScene()
 		shader.link();
 		
 		// make vbo quad patch
-		loopj(0, grid+1)
-		loopi(0, grid+2)
+		loopj(0, grid+1) // for loop, 0 < j < grid + 1, j++
+		loopi(0, grid+2) // for loop, 0 < i < grid + 1, i++
 		{
-			loopk(0, ((i==0) ? 2 : 1)) // for loop, 0 < k < i [if (i==0) then i = 2, otherwise i = 1]
+			loopk(0, ((i==0) ? 2 : 1)) // for loop, 0 < k < i [if (i==0) then i = 2, otherwise i = 1], k++
 			{
 				vert.push_back(float(i) / grid); // i / grid (% of grid)
 				vert.push_back(float(j) / grid); // j / grid (% of grid)
 				vert.push_back(0);
 			}			
 			++j;
-			loopk(0, ((i == grid + 1) ? 2 : 1)) // for loop, 0 < k < i [if (i == grid +1) then i = 2, otherwise i = 1]
+			loopk(0, ((i == grid + 1) ? 2 : 1)) // for loop, 0 < k < i [if (i == grid +1) then i = 2, otherwise i = 1], k++
 			{
 				vert.push_back(float(i) / grid); // i / grid (% of grid)
 				vert.push_back(float(j) / grid); // j / grid (% of grid)
@@ -124,7 +124,7 @@ void DrawScene()
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vert.size(),&vert[0], GL_DYNAMIC_DRAW_ARB );
 		
-		init = false; // initialization complete
+		init = false; // initialization complete at this point
 	}
 
 	// more openGL stuff
@@ -134,9 +134,9 @@ void DrawScene()
 	// if top down view has been activated
 	if (topdown)
 	{
-		glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // get an orthographic projection of the scene
+		glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // aw an orthographic projection of the scene
 		glRotatef(180,1,0,0); // rotate the camera by 180 degrees
-		wireframe^=1; // ??
+		wirWeframe^=1; // ??
 	}
 	else		 
 	{
@@ -144,8 +144,8 @@ void DrawScene()
 		glGetIntegerv(GL_VIEWPORT, vp);
 		gluPerspective(90.0, float(vp[2]) / float(vp[3]) , 0.0001, 1.0);
 		glTranslatef(0, viewpos.y, 0);	// set height
-		glRotatef(130, 1, 0, 0);		
-		glRotatef(viewangle, 0, 0, 1);		// set rotation
+		glRotatef(130, 1, 0, 0); // rotate 130 degreessa	
+		glRotatef(viewangle, 0, 0, 1); // set rotation
 	}
 
 	matrix44 mat;
