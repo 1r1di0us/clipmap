@@ -1,1 +1,10 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(439,5): error MSB8020: The build tools for v143 (Platform Toolset = 'v143') cannot be found. To build using the v143 build tools, please install v143 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Retarget solution".
+﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  glew.cpp
+  Main.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\sal.h(2361,1): error C2144: syntax error: 'int' should be preceded by ';'
+C:\Users\erica\source\repos\clipmap\src\glsl.h(15,4): error C2065: 'cout': undeclared identifier
+C:\Users\erica\source\repos\clipmap\src\glsl.h(15,107): error C2065: 'endl': undeclared identifier
+C:\Users\erica\source\repos\clipmap\src\glsl.h(17,4): error C2065: 'cout': undeclared identifier
+C:\Users\erica\source\repos\clipmap\src\glsl.h(17,84): error C2065: 'endl': undeclared identifier
+  Bmp.cpp
+  Generating Code...

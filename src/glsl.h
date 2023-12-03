@@ -1,6 +1,9 @@
 // GL ERROR CHECK
 #define CHECK_GL_ERROR() CheckGLError(__FILE__, __LINE__)
 // GL ERROR CHECK
+
+using namespace std;
+
 int CheckGLError(char *file, int line)
 {
 	//return 0;

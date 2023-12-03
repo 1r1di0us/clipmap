@@ -24,8 +24,6 @@ a//
 
 #pragma comment(lib,"winmm.lib")
 
-using namespace std;
-
 int grid = 64;				// patch resolution
 int levels = 5;				// LOD levels
 int width = 2048, height = 2048; // heightmap dimensions
@@ -122,7 +120,7 @@ void DrawScene()
 		// more openGL stuff
 		glGenBuffers(1, (GLuint *)(&vbo));
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vert.size(),&vert[0], GL_DYNAMIC_DRAW_ARB );
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vert.size(), &vert[0], GL_DYNAMIC_DRAW_ARB );
 		
 		init = false; // initialization complete at this point
 	}
@@ -132,11 +130,11 @@ void DrawScene()
 	glLoadIdentity();
 
 	// if top down view has been activated
-	if (topdown)
+	if (!topdown)
 	{
 		glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // aw an orthographic projection of the scene
 		glRotatef(180,1,0,0); // rotate the camera by 180 degrees
-		wirWeframe^=1; // ??
+		wireframe^=1; // ??
 	}
 	else		 
 	{
@@ -162,9 +160,9 @@ void DrawScene()
 	glBindTexture(GL_TEXTURE_2D, tex_heightmap);
 	glEnable(GL_TEXTURE_2D);
 	glActiveTextureARB( GL_TEXTURE1 );
-	glBindTexture(GL_TEXTURE_2D, tex_terrain);
+	glBindTexture(GL_TEXTURE_2D, tex_terrain); 
 
-	// triangle mesh
+	// triangle meshWD
 	shader.begin();
 	shader.setUniform1i("tex_heightmap", 0);
 	shader.setUniform1i("tex_terrain", 1);
@@ -174,7 +172,7 @@ void DrawScene()
 		- viewpos.x / float(2 * 512 * grid),
 		- viewpos.z / float(2 * 512 * grid), 0, 0);
 
-	loopi(0, levels)
+	loopi(0, levels) // for loop, 0 < i < levels, i++awd 
 	{
 		float ox = (int (viewpos.x * (1 << i)) & 511) / float (512 * grid); // ??
  		float oy = (int (viewpos.z * (1 << i)) & 511) / float (512 * grid); // ??
@@ -213,7 +211,7 @@ void DrawScene()
 
 	// Disable VBO
 	glDisableClientState(GL_VERTEX_ARRAY);									CHECK_GL_ERROR();
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);								CHECK_GL_ERROR();
+	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);			aw					CHECK_GL_ERROR();
 	glutSwapBuffers();
 }
 
@@ -222,6 +220,7 @@ int main(int argc, char **argv)
 { 
   glutInit(&argc, argv);  // glutInit() using command-line arguments
 
+  std::cout << "test!!!!\n";
   // setting up window
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  // set display mode
   glutInitWindowSize(1024, 512); // set window size
@@ -236,4 +235,4 @@ int main(int argc, char **argv)
   glutMainLoop();  
   return 0;
 }
-[
+
