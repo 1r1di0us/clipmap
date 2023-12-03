@@ -211,7 +211,7 @@ void DrawScene()
 
 	// Disable VBO
 	glDisableClientState(GL_VERTEX_ARRAY);									CHECK_GL_ERROR();
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);			aw					CHECK_GL_ERROR();
+	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);								CHECK_GL_ERROR();
 	glutSwapBuffers();
 }
 
